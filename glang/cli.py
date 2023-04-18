@@ -8,21 +8,24 @@ Be creative! do whatever you want!
 - Import things from your .base module
 """
 
+from phrase_getter import (
+    build_prompt,
+    send_prompt_to_openai,
+    extract_phrases_from_completion,
+)
+import json
+
 
 def main():  # pragma: no cover
-    """
-    The main function executes on commands:
-    `python -m glang` and `$ glang `.
+    prompt = build_prompt(["losung", "eklaren"], num_phrases=3)
+    print(prompt)
+    completion = send_prompt_to_openai(prompt)
+    print(completion)
+    with open("/tmp/response.json", "w") as f:
+        json.dump(completion, f, indent=2)
+    phrases = extract_phrases_from_completion(completion)
+    print(phrases)
 
-    This is your program's entry point.
 
-    You can change this function to do whatever you want.
-    Examples:
-        * Run a test suite
-        * Run a server
-        * Do some other stuff
-        * Run a command line application (Click, Typer, ArgParse)
-        * List all available tasks
-        * Run an application (Flask, FastAPI, Django, etc.)
-    """
-    print("This will do something")
+if __name__ == "__main__":
+    main()
